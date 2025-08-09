@@ -12,13 +12,16 @@ def input_error(func):
 
 
 def parse_input(user_input):
-    cmd, *args = user_input.strip().split()
+    parts = user_input.strip().split()
+    if not parts:  
+        return "", []
+    cmd, *args = parts
     return cmd.lower(), args
 
 
 @input_error
 def add_contact(args, contacts):
-    name, phone = args
+    name, phone = args  
     contacts[name] = phone
     return "Contact added."
 
@@ -34,8 +37,8 @@ def change_contact(args, contacts):
 
 @input_error
 def show_phone(args, contacts):
-    name = args[0]
-    return contacts[name]
+    name = args[0]  
+    return contacts[name]  
 
 
 @input_error
@@ -51,6 +54,10 @@ def main():
     while True:
         user_input = input("Enter a command: ")
         command, args = parse_input(user_input)
+
+        if not command:  
+            print("Please enter a command.")
+            continue
 
         if command in ["close", "exit"]:
             print("Good bye!")
